@@ -8,22 +8,28 @@ function CarList() {
   const memoizedCars = createSelector(
     (state) => state.cars.data,
     (state) => state.cars.searchTerm,
+    (state) => state.form.name,
+
     (cars, searchTerm) => {
-      return cars.filter((car) =>
+      const filteredCars = cars.filter((car) =>
         car.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      return filteredCars;
     }
   );
 
   const cars = useSelector(memoizedCars);
+  const { name } = useSelector((state) => state.form);
 
   const handleCarDelete = (car) => {
     dispatch(removeCar(car.id));
   };
 
   const renderedCars = cars.map((car) => {
+    const bold = name && car.name.toLowerCase().includes(name.toLowerCase());
+
     return (
-      <div key={car.id} className="panel">
+      <div key={car.id} className={`panel ${bold && 'bold'}`}>
         <p>
           {car.name} - £{car.cost}
         </p>
