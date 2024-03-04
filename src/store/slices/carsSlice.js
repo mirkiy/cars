@@ -23,7 +23,7 @@ const carsSlice = createSlice({
       //Assumption:
       //action.payload === the id of the car we want to remove
       const updated = state.data.filter((car) => {
-        return carsSlice.id !== action.payload;
+        return car.id !== action.payload;
       });
       state.data = updated;
     },
